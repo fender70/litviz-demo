@@ -1,19 +1,25 @@
-# LitViz Sandbox
+# LitViz demo
 
-A single-page, in-browser demo of the LitViz workflow on **synthetic papers**:
+**Live:** https://fender70.github.io/litviz-demo/
 
-1. **Parse**: five fictional papers, given as page text
-2. **Extract**: scripted "model output" (claims with supporting quotes, some deliberately wrong)
-3. **Verify**: every quote must appear word for word in its paper (a port of LitViz's `pipeline/verify.py`)
-4. **Link**: scripted relations between papers, each backed by a quote from the source paper
-5. **Map**: the grounding mode (`strict` / `lenient` / `open`) decides what reaches the graph
+The real LitViz interface (map, matrix, frontier, Idea Landscape, 3D view, filters, facets, evidence,
+walkthrough) running in the browser on **fictional sample papers**. There is no backend and no model:
+the app runs in its fixture mode, and the yellow *FIXTURE DATA* badge says so. Chat, uploads and
+re-runs need the local model, so the demo explains that instead of answering.
 
-No model, no backend, no network calls. Everything runs in the page.
+- **Idea Landscape / 3D landscape axes:** served by `demo/demo-shim.js` from a *synthetic* layout
+  (`scripts/make_landscape.py`): passages are the sample papers' claims and evidence, placed by kind and
+  method family, not by real embeddings.
+- **[Sandbox](https://fender70.github.io/litviz-demo/sandbox/)**: a small page that runs the
+  quote-verification step for real (a port of `pipeline/verify.py`). Edit quotes and pages, switch
+  grounding modes (strict / lenient / open) and see what reaches the map.
 
-**Try:** edit a quote so one word differs, edit a page to remove a sentence a link depends on,
-add your own paper and a link to it, switch grounding modes, or download the resulting `graph.json`.
+## Rebuilding
 
-Built-in test cases: paraphrase, wrong number, elided quote (`...`), too-short quote, model inference
-with no quote, a hyphen at a line break, curly quotes, a sentence across a page break, and a fabricated link.
+```bash
+scripts/build.sh /path/to/LitViz   # builds that checkout's frontend into this repo's root
+```
+
+The build changes one line of the app: the Idea Landscape is not disabled in fixture mode.
 
 Feedback: open an issue in this repo.
